@@ -3,15 +3,16 @@
 <%response.setContentType("text/html; charset=utf-8");%>
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
+  <head>
+    <meta charset="utf-8">
+    <title>로그인 &middot; 트위터 부트스트랩</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-<link href="assets/css/bootstrap-ko.css" rel="stylesheet">
-<style type="text/css">
+    <!-- 스타일 --> 
+    <link href="assets/css/bootstrap-ko.css" rel="stylesheet">
+    <style type="text/css">
       body {
         padding-top: 40px;
         padding-bottom: 40px;
@@ -44,44 +45,41 @@
       }
 
     </style>
-	<link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-	
-	 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- IE6~8에서 HTML5 태그를 지원하기위한 HTML5 shim -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- 파비콘과 앱 아이콘 -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
       <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
                     <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
                                    <link rel="shortcut icon" href="assets/ico/favicon.png">
-	
-	
-</head> 
-<body>
-<div>
-	<a href="mainPage.do" style="font-size: 20px;" ><img alt="" src="img/main.jpg" style="height: 100px; width: 150px;" title="메인 페이지"></a>
-</div>
-<div class="container">
-	<form action="loginForm.do" method="post" class="form-signin">
-	 	<h2 class="form-signin-heading">로그인하세요</h2>
-		<table>
-			<tr>
-				<td><input type="text" name="id" required="required" placeholder="아이디" class="input-block-level"/></td>
-			</tr>
-			<tr>
-				<td><input type="password" name="password" required="required" placeholder="비밀번호" class="input-block-level"/></td>
-			</tr>
-			<tr>
-				<td>
-					<label class="checkbox">
-         		 	<input type="checkbox" value="remember-me"> 로그인 유지
-        			</label>
-        			<button class="btn btn-large btn-primary" type="submit">로그인</button>
-					<input type="button" value="회원가입" onclick="location.href='regist.do'">
-				</td>
-			</tr>
-		</table>
-	</form> 
-</div>
+  </head>
 
-	<script src="assets/js/jquery.js"></script>
+  <body>
+
+    <div class="container">
+
+      <form class="form-signin">
+        <h2 class="form-signin-heading">로그인하세요</h2>
+        <input type="text" class="input-block-level" >
+        <input type="password" class="input-block-level" placeholder="암호">
+        <label class="checkbox">
+          <input type="checkbox" value="remember-me"> 로그인 유지
+        </label>
+        <button class="btn btn-large btn-primary" type="submit">로그인</button>
+      </form>
+
+    </div> <!-- /container -->
+
+    <!-- 자바스크립트
+    ================================================== -->
+    <!-- 페이지를 빨리 읽어들이도록 문서 마지막에 배치 -->
+    <script src="assets/js/jquery.js"></script>
     <script src="assets/js/bootstrap-transition.js"></script>
     <script src="assets/js/bootstrap-alert.js"></script>
     <script src="assets/js/bootstrap-modal.js"></script>
@@ -95,6 +93,5 @@
     <script src="assets/js/bootstrap-carousel.js"></script>
     <script src="assets/js/bootstrap-typeahead.js"></script>
 
-
-</body>
+  </body>
 </html>
