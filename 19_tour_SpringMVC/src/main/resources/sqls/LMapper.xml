@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+<mapper namespace="com.hk.tour.tourl">
+
+
+	<select id="locationList" resultType="LDto" parameterType="Map">
+		SELECT TSEQ, INFONAME ,PNUMBER ,LCATEGORY ,MCATEGORY 
+		,RCATEGORY ,LOCATION ,CITYCOUNTIES ,DONG ,ADDRESS ,GRADE 
+		FROM TOURLIST 
+		<where>
+			<choose>
+				<when test="location == 'location'">
+					LOCATION= LOCATION
+				</when>
+				<otherwise>
+					LOCATION=#{location} AND CITYCOUNTIES=#{citycounties}
+				</otherwise>
+			</choose>
+		</where>
+	
+	</select>
+	
+<!-- 		<where> -->
+<!-- 			<choose> -->
+<!-- 				<when test="location == 'location'" > -->
+<!-- 					LOCATION = LOCATION  -->
+<!-- 				</when> -->
+<!-- 				<when test=" location == 'location' and citycounties == 'citycounties' "> -->
+<!-- 					LOCATION =LOCATION AND CITYCOUNTIES =CITYCOUNTIES -->
+<!-- 				</when> -->
+<!-- 				<when test="location == null" > -->
+<!-- 					LOCATION =#{location} AND CITYCOUNTIES=#{citycounties}  -->
+<!-- 				</when> -->
+<!-- 				<otherwise> -->
+<!-- 					LOCATION =#{location}  -->
+<!-- 				</otherwise> -->
+<!-- 			</choose> -->
+<!-- 		</where> -->
+	
+	<select id="cityList" resultType="LDto" parameterType="Map">
+		SELECT CITYCOUNTIES , ROW_NUMBER() OVER(ORDER BY CITYCOUNTIES ) NUMC 
+		FROM TOURLIST 
+		<where>
+			<choose>
+				<when test="location == 'location' ">
+					LOCATION =LOCATION 
+				</when>
+				<when test=" location == 'location' and citycounties == 'citycounties' ">
+					LOCATION =LOCATION AND CITYCOUNTIES =CITYCOUNTIES
+				</when>
+				<when test="location == null" >
+					LOCATION =#{location} AND CITYCOUNTIES=#{citycounties} 
+				</when>
+				<otherwise>
+					LOCATION = #{location} 
+				</otherwise>
+			</choose>
+		</where>
+		
+		GROUP BY CITYCOUNTIES
+	</select>
+	
+	
+	
+	<select id="detailInfo" resultType="LDto" parameterType="Int">
+		SELECT l.TSEQ, INFONAME ,PNUMBER ,LCATEGORY ,MCATEGORY 
+		,RCATEGORY ,LOCATION ,CITYCOUNTIES ,DONG ,ADDRESS ,SUBSTR(GRADEAVG,1,3) AS GRADEAVG
+		FROM (SELECT TSEQ, AVG(USERGRADE) AS GRADEAVG FROM TOURREPLY GROUP BY TSEQ ) t, TOURLIST l
+		WHERE t.TSEQ(+) = l.TSEQ AND l.TSEQ=#{tseq}	
+	</select>
+	
+	
+	<select id="topList" resultType="LDto">
+		SELECT l.TSEQ, INFONAME ,PNUMBER ,LCATEGORY ,MCATEGORY 
+		,RCATEGORY ,LOCATION ,CITYCOUNTIES ,DONG ,ADDRESS ,SUBSTR(GRADEAVG,1,3) AS GRADEAVG
+		FROM (SELECT TSEQ, AVG(USERGRADE) AS GRADEAVG,ROW_NUMBER()OVER(ORDER BY AVG(USERGRADE) DESC) AA FROM TOURREPLY GROUP BY TSEQ ) t, TOURLIST l
+		WHERE t.TSEQ(+) = l.TSEQ AND t.AA BETWEEN 1 AND 10
+	</select>
+	
+	
+	
+	
+	
+	
+<!-- 	<select id="detailInfo" resultType="LDto" parameterType="int"> -->
+<!-- 		SELECT TSEQ, INFONAME ,PNUMBER ,LCATEGORY ,MCATEGORY  -->
+<!-- 		,RCATEGORY ,LOCATION ,CITYCOUNTIES ,DONG ,ADDRESS ,GRADE  -->
+<!-- 		FROM TOURLIST -->
+<!-- 		WHERE TSEQ=#{tseq} -->
+<!-- 	</select> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  	
+
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

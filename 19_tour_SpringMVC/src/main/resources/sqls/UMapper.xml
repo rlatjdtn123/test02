@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+<mapper namespace="com.hk.tour.touru">
+
+	<insert id="insertUser" parameterType="UDto">
+		INSERT INTO TOURUSER VALUES(#{id},#{name},#{password},#{address},
+				#{phone},#{email},'N','USER',SYSDATE )
+	</insert>
+	
+	<select id="getLogin" resultType="UDto" parameterType="Map">
+		SELECT ID,NAME,ENABLED,ROLE FROM TOURUSER WHERE ID=#{id} AND PASSWORD=#{password}
+	</select>
+	
+	<select id="userInfo" resultType="UDto" parameterType="String">
+		SELECT ID,NAME,ADDRESS,PHONE,EMAIL,REGDATE
+		FROM TOURUSER WHERE ID=#{id}
+	</select>
+	
+	<update id="userUpdate" parameterType="UDto">
+		UPDATE TOURUSER SET ADDRESS=#{address}  , PHONE=#{phone} , EMAIL=#{email}
+		WHERE ID=#{id}
+	</update>
+	
+	
+	<update id="delUser" parameterType="String">
+		UPDATE TOURUSER SET ENABLED='Y'
+		WHERE ID=#{id}
+	</update>
+	
+	<select id="idCheck" parameterType="String" resultType="String">
+		SELECT ID 
+		FROM TOURUSER 
+		WHERE ID=#{id}
+	</select>
+	
+	
+</mapper>
+	

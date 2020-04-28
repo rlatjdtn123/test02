@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+<mapper namespace="com.hk.tour.tourr">
+	
+	<insert id="insertReply" parameterType="RDto">
+		INSERT INTO TOURREPLY VALUES(TOURREPLY_SEQ.NEXTVAL,#{tseq},#{id},#{content},#{usergrade} )
+	</insert>
+	
+	
+	<select id="replyList" resultType="RDto" parameterType="Int">
+		SELECT SEQ,TSEQ,ID,CONTENT,USERGRADE
+		FROM TOURREPLY
+		WHERE TSEQ=#{tseq}
+	</select>
+	
+	
+	
+<!-- 		SELECT TSEQ ,INFONAME,PNUMBER,LCATEGORY,MCATEGORY,RCATEGORY,LOCATION,CITYCOUNTIES,DONG,ADDRESS , -->
+	
+	<select id="gradeAvg" resultType="RDto" parameterType="Int">
+		SELECT (SELECT AVG(USERGRADE) FROM TOURREPLY) AS nn FROM  TOURLIST  WHERE TSEQ=#{tseq}
+	</select>
+	
+	
+</mapper>
