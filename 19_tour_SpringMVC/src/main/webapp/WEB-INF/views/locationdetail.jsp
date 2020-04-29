@@ -31,7 +31,7 @@
 				%>
 				<tr>
 					<th>
-						<a href="Lcontroller.do?command=detailInfo&tseq=<%=dto.getTseq()%>"><%=dto.getInfoname()%></a>
+						<a href="detailInfo.do?tseq=<%=dto.getTseq()%>"><%=dto.getInfoname()%></a>
 					</th>
 					<td>
 						<%=dto.getCitycounties()%>

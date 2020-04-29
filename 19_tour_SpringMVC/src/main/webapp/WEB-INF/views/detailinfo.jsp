@@ -26,8 +26,8 @@
 			var tseq=$("input[name=tseq]").val();
 			$("#view").toggle();
 			$.ajax({
-				url: "Lcontroller.do",    //요청 URL
-				data:{"command":"contentAjax","tseq":tseq},//서버쪽으로 보낼 데이터
+				url: "contentAjax.do",    //요청 URL
+				data:{"tseq":tseq},//서버쪽으로 보낼 데이터
 				dataType:"json",			 	        //서버에서 받게될 데이터 타입 정의                                            // text 문자열하나보낼경우
 				method:"post",                          //전송방식 정의
 				success:function(obj){                 // 서버통신에 성공했다면 기능실행(obj는 전달된 데이터 받기)  //content
@@ -136,8 +136,7 @@ body{background-image: url("img/back.jpg");
 </ul>
 			<button id="bt"><b>===============후기 목록보기===============</b></button>
 <div><table id="view" style="display: none;"></table></div>
-<form action="Lcontroller.do" method="post" >
-	<input type="hidden" name="command" value="write">
+<form action="write.do" method="post" >
 	<input type="hidden" name="tseq" value="<%=dto.getTseq()%>">
 	<input type="hidden" name="dto" value="<%=dto%>">
 	<table>

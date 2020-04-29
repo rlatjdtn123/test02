@@ -19,9 +19,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hk.tour.dtos.LDto;
+import com.hk.tour.dtos.RDto;
 import com.hk.tour.dtos.UDto;
 import com.hk.tour.service.ILService;
 import com.hk.tour.service.IRService;
@@ -47,9 +49,9 @@ public class HomeController {
 		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
+				
 		String formattedDate = dateFormat.format(date);
-		
+				
 		model.addAttribute("serverTime", formattedDate );
 		
 		return "home";
@@ -120,28 +122,78 @@ public class HomeController {
 		List<LDto> list=lService.cityList(dto.getLocation(), dto.getCitycounties());
 		Map<String, List<LDto>> map=new HashMap<>();
 		map.put("list", list);
-		
+					
 		return map;
-	}
+	}				
 	
 	
 	
 	@RequestMapping(value = "/tourlist.do", method = {RequestMethod.POST,RequestMethod.GET})
-	public String locationDetail(Locale locale, Model model) {
+	public String tourlist(Locale locale, Model model) {
 		logger.info("관광지목록 폼  {}.", locale);
 		return "tourlist";
 	}
 	
 	
 	
+	@RequestMapping(value = "/locationDetail.do", method = {RequestMethod.POST,RequestMethod.GET})
+	public String locationDetail(Locale locale, Model model,LDto dto) {
+		logger.info("지역별 관광지  {}.", locale);
+		List<LDto> list=lService.locationList(dto.getLocation(),dto.getCitycounties());
+		model.addAttribute("list", list);
+					
+		return "locationdetail";
+	}		
 	
 	
 	
+	@RequestMapping(value = "/detailInfo.do", method = {RequestMethod.POST,RequestMethod.GET})
+	public String detailInfo(Locale locale, Model model,int tseq) {
+		logger.info("관광지 상세  {}.", locale);
+		
+		
+		LDto dto=lService.detailInfo(tseq);
+		model.addAttribute("dto", dto);
+					
+		return "detailinfo";
+	}	
 	
 	
+	@RequestMapping(value = "/write.do", method = {RequestMethod.POST,RequestMethod.GET})
+	public String write(Locale locale, Model model,LDto dto,@RequestParam("star-input") String star_input,RDto dto2) {
+		logger.info("관광지 댓글및평점  {}.", locale); 
+		
+//		LDto dto2=lService.detailInfo(dto.getTseq());
+//		model.addAttribute("dto", dto2);
+		
+		dto2.setUsergrade(star_input);	
+		boolean isS=rService.insertReply(dto2);
+		if(isS) {
+			model.addAttribute("dto", dto);
+			return "detailinfo";
+		}else {
+			model.addAttribute("msg", "댓글등록실패");
+			return "error";
+		}
+	}	
+	
+	@RequestMapping(value = "/logOut.do", method = {RequestMethod.POST,RequestMethod.GET})
+	public String logOut(Locale locale, Model model,HttpServletRequest request) {
+		logger.info("관광지 상세  {}.", locale);
+		request.getSession().invalidate();
+		
+					
+		return "redirect:index.jsp"; 
+	}	
 	
 	
 	 
+	
+	
+	
+	
+	
+	
 	
 	
 	
