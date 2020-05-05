@@ -13,8 +13,7 @@
 	UDto dto=(UDto)request.getAttribute("dto");
 %>
 <body>
-<form action="Ucontroller.do" method="post">
-	<input type="hidden" name="command" value="userUpdate">
+<form action="userUpdate.do" method="post">
 	<input type="hidden" name="id" value="<%=dto.getId()%>">
 	<table>
 		<tr>

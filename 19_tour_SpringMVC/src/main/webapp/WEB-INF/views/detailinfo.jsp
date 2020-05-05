@@ -122,7 +122,7 @@ body{background-image: url("img/back.jpg");
 	<li>문의 및 안내 : <%=dto.getPnumber()%></li> 
 	<li>주소 : <%=dto.getAddress()%></li>
 	<%
-		if(dto==null){
+		if(dto.getGradeavg()==0){
 			%>
 				<li>평점없음</li>
 			<%
@@ -138,7 +138,7 @@ body{background-image: url("img/back.jpg");
 <div><table id="view" style="display: none;"></table></div>
 <form action="write.do" method="post" >
 	<input type="hidden" name="tseq" value="<%=dto.getTseq()%>">
-	<input type="hidden" name="dto" value="<%=dto%>">
+<%-- 	<input type="hidden" name="dto" value="<%=dto%>"> --%>
 	<table>
 		<tr>
 			<td> 
@@ -185,7 +185,7 @@ body{background-image: url("img/back.jpg");
 					%> 
 			</td>
 		</tr>
-	</table>
+	</table> 
 </form>
 <!-- <span class="star-input"> -->
 <!--   <span class="input"> -->

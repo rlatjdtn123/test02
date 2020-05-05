@@ -28,7 +28,7 @@
 		<td><%=dto.getName()%></td>
 	</tr>
 	<tr>
-		<th>주소</th>
+		<th>주소</th> 
 		<td><%=dto.getAddress()%></td>
 	</tr>
 	<tr>
@@ -45,10 +45,10 @@
 	</tr>
 	<tr>
 		<td>
-			<input type="button" value="정보수정" onclick="location.href='Ucontroller.do?command=updateForm&id=<%=dto.getId()%>'">
-			<input type="button" value="메인페이지" onclick="location.href='mainpage.jsp'">
-			<input type="button" value="탈퇴" onclick="location.href='Ucontroller.do?command=delUser&id=<%=dto.getId()%>'">
-			<input type="button" value="로그아웃" onclick="location.href='Ucontroller.do?command=logOut'">
+			<input type="button" value="정보수정" onclick="location.href='updateForm.do?id=<%=dto.getId()%>'">
+			<input type="button" value="메인페이지" onclick="location.href='mainPage.do'">
+			<input type="button" value="탈퇴" onclick="location.href='delUser.do?id=<%=dto.getId()%>'">
+			<input type="button" value="로그아웃" onclick="location.href='logOut.do'">
 		</td>
 	</tr>
 </table>

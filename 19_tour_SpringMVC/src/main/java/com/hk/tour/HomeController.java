@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
@@ -160,16 +161,20 @@ public class HomeController {
 	
 	
 	@RequestMapping(value = "/write.do", method = {RequestMethod.POST,RequestMethod.GET})
-	public String write(Locale locale, Model model,LDto dto,@RequestParam("star-input") String star_input,RDto dto2) {
+	public String write(Locale locale, Model model,LDto dto,@RequestParam("star-input") String star_input,RDto dto2,HttpServletRequest request) {
 		logger.info("관광지 댓글및평점  {}.", locale); 
 		
-//		LDto dto2=lService.detailInfo(dto.getTseq());
-//		model.addAttribute("dto", dto2);
+		LDto dto3=lService.detailInfo(dto.getTseq());
 		
-		dto2.setUsergrade(star_input);	
+		UDto lDto=(UDto)request.getSession().getAttribute("ldto");
+		String id=lDto.getId();
+		
+		dto2.setUsergrade(star_input);
+		dto2.setId(id);
+	
 		boolean isS=rService.insertReply(dto2);
 		if(isS) {
-			model.addAttribute("dto", dto);
+			model.addAttribute("dto", dto3);
 			return "detailinfo";
 		}else {
 			model.addAttribute("msg", "댓글등록실패");
@@ -179,24 +184,71 @@ public class HomeController {
 	
 	@RequestMapping(value = "/logOut.do", method = {RequestMethod.POST,RequestMethod.GET})
 	public String logOut(Locale locale, Model model,HttpServletRequest request) {
-		logger.info("관광지 상세  {}.", locale);
+		logger.info("로그아웃  {}.", locale);
 		request.getSession().invalidate();
 		
 					
 		return "redirect:index.jsp"; 
 	}	
 	
-	
 	 
+	@ResponseBody
+	@RequestMapping(value = "/contentAjax.do", method = {RequestMethod.POST,RequestMethod.GET})
+	public Map<String, List<RDto>> contentAjax(Locale locale, Model model,int tseq) {
+		logger.info("ajax처리  {}.", locale);
+		List<RDto> list=rService.replyList(tseq);
+		Map<String, List<RDto>> map=new HashMap<>();
+		map.put("list", list);
+					
+		return map; 
+	}	
+	
+	
+	@RequestMapping(value = "/topTen.do", method = {RequestMethod.POST,RequestMethod.GET})
+	public String topTen(Locale locale, Model model) {
+		logger.info("topten 조회  {}.", locale);
+		List<LDto> list=lService.topList();
+		model.addAttribute("list", list);		
+					
+		return "topten"; 
+	}	
+	
+	
+	@RequestMapping(value = "/userInfo.do", method = {RequestMethod.POST,RequestMethod.GET})
+	public String userInfo(Locale locale, Model model,String id) {
+		logger.info("마이페이지  {}.", locale);
+		UDto dto=uService.userInfo(id);
+		model.addAttribute("dto", dto);
+		
+					
+		return "userinfo"; 
+	}
+	
+	
+	@RequestMapping(value = "/updateForm.do", method = {RequestMethod.POST,RequestMethod.GET})
+	public String updateForm(Locale locale, Model model,String id) {
+		logger.info("업데이트 폼으로 이동  {}.", locale);
+		UDto dto=uService.userInfo(id);
+		model.addAttribute("dto", dto);
+						
+		return "userupdate"; 
+	}
 	
 	
 	
-	
-	
-	
-	
-	
-	
+	@RequestMapping(value = "/userUpdate.do", method = {RequestMethod.POST,RequestMethod.GET})
+	public String userUpdate(Locale locale, Model model,UDto dto) {
+		logger.info("유저 정보수정  {}.", locale);
+		boolean isS=uService.userUpdate(dto);
+		if(isS) {
+			return "redirect:userInfo.do?id="+dto.getId(); 
+		}else {
+			model.addAttribute("msg", "수정실패" );
+			return "error";
+		}
+						
+		 
+	}
 	
 	
 	
